@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+成绩查询
+{% endblock title %}
+{% block content %}
+<div class="container">
+        <div class="row justify-content-md-center">
+            <form method="post" action="/StudentQuery/">
+                {% csrf_token %}
+                <h3>考试成绩</h3>
+                <label>学号</label>
+                <input type="text" name="sno">
+                <label>考试科目</label>
+                <input type="text" name="examname">
+                <button type="submit" class="btn btn-primary">查询</button>
+                <br>
+                <br>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>学号</th>
+                        <th>姓名</th>
+                        <th>考试科目</th>
+                        <th>成绩</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in grade1 %}
+                        <tr class="table-info">
+                            <td>{{ item.student.sno }}</td>
+                            <td>{{ item.student.name }}</td>
+                            <td>{{ item.exam.name }}</td>
+                            <td>{{ item.score }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+{% endblock %}

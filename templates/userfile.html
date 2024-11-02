@@ -1,0 +1,80 @@
+{% extends "base.html" %} {% load static %}
+{% block title %} 用户信息 {% endblock title %}
+{% block content %}
+<div class="container">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-8">
+      <div class="panel panel-info">
+          <div class="panel-heading">
+              <h3 class="panel-title">个人信息</h3>
+          </div>
+          {% if request.session.sno %}
+          <div class="panel-body">
+              <table class="table table-borderless">
+                  <tbody>
+                  <tr>
+                      <td>学号</td>
+                      <td>{{ student.sno }}</td>
+                  </tr>
+                  <tr class="table">
+                      <td>姓名</td>
+                      <td>{{ student.name }}</td>
+                  </tr>
+                  <tr class="table">
+                      <td>性别</td>
+                      {% if student.gender == 'm'%}
+                      <td>男</td>
+                      {% else %}
+                      <td>女</td>
+                      {% endif %}
+                  </tr>
+                  <tr class="table">
+                      <td>班级</td>
+                      <td>{{ student.clazz }}</td>
+                  </tr>
+                  <tr class="table">
+                      <td>年龄</td>
+                      <td>{{ student.age }}</td>
+                  </tr>
+                  <tr class="table">
+                      <td>邮箱地址</td>
+                      <td>{{ student.email }}</td>
+                  </tr>
+                  </tbody>
+              </table>
+          </div>
+          {% endif %}
+          {% if request.session.tno %}
+          <div class="panel-body">
+              <table class="table table-borderless">
+                  <tbody>
+                  <tr>
+                      <td>工号</td>
+                      <td>{{ teacher.tno }}</td>
+                  </tr>
+                  <tr class="table">
+                      <td>姓名</td>
+                      <td>{{ teacher.name }}</td>
+                  </tr>
+                  <tr class="table">
+                      <td>性别</td>
+                      {% if teacher.gender == 'm'%}
+                      <td>男</td>
+                      {% else %}
+                      <td>女</td>
+                      {% endif %}
+                  </tr>
+                  <tr class="table">
+                      <td>密码</td>
+                      <td>{{ teacher.password }}</td>
+                  </tr>
+                  </tbody>
+              </table>
+          </div>
+      {% endif %}
+      </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

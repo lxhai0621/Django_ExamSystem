@@ -1,0 +1,13 @@
+{% load static %}
+<!-- Footer -->
+<div>
+    <br><br><br>
+</div>
+{% if request.session.exam %}
+{% else %}
+<footer class="py-5 bg-dark fixed-bottom">
+    <div class="container">
+        <p class="m-0 text-center text-white">李孝海 ExamSystem 2022</p>
+    </div>
+</footer>
+{% endif %}

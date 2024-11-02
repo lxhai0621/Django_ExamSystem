@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+题库管理系统
+{% endblock title %}
+{% block content %}
+<nav class="navbar navbar-expand-sm bg-light navbar-light ">
+    <ul class="navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link">
+                <h4>在线考试</h4></a>
+        </li>
+        <br>
+        <br>
+        <li class="nav-item active">
+            <a class="nav-link"><h4>当前考试:{{ exam.name }}</h4></a>
+        </li>
+        <li style="position: fixed;right: 70px; font-size: 30px;color: #9fcdff">{{ student.name }}</li>
+    </ul>
+</nav>
+<div class="main">
+	<div class="test_main">
+		<div class="nr_left">
+			<div class="test">
+				<form action="calGrade" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="sno" value="{{ student.sno }}">
+                <input type="hidden" name="examname" value="{{ exam.name }}">
+						<div class="test_content">
+							<div class="test_content_title">
+								<h2>单选题</h2>
+								<p>
+									<span>共</span><i class="content_lit">{{ exam.paper.choice_number }}</i><span>题，</span>
+                                    <span>合计</span><i class="content_fs">{{ exam.paper.choice_number }}</i><span>分</span>
+								</p>
+							</div>
+						</div>
+						<div class="test_content_nr">
+							<ul>
+                                {% for choicetext in exam.paper.choice_question.all %}
+                                    <li id="{{ choicetext.question }}">
+                                        <div class="test_content_nr_tt">
+											<i>{{ forloop.counter}}</i><span>({{ choicetext.score }}分)</span>
+                                            <font>{{ choicetext.question }}</font>
+										</div>
+                                       <div class="test_content_nr_main">
+											<ul>
+													<li class="option">
+															<input type="radio" class="radioOrCheck" name="{{ choicetext.question }}"
+                                                            value="A"/>
+														<label>A.
+                                                            <p class="ue" style="display: inline;">{{ choicetext.answer_A }}</p>
+														</label>
+													</li>
+													<li class="option">
+															<input type="radio" class="radioOrCheck" name="{{ choicetext.question }}"
+                                                            value="B"/>
+														<label>
+															B.<p class="ue" style="display: inline;">{{ choicetext.answer_B }}</p>
+														</label>
+													</li>
+													<li class="option">
+															<input type="radio" class="radioOrCheck" name="{{ choicetext.question }}"
+                                                            value="C"/>
+														<label>
+															C.<p class="ue" style="display: inline;">{{ choicetext.answer_C }}</p>
+														</label>
+													</li>
+													<li class="option">
+															<input type="radio" class="radioOrCheck" name="{{ choicetext.question }}"
+                                                            value="D"/>
+														<label>
+															D.<p class="ue" style="display: inline;">{{ choicetext.answer_D }}</p>
+														</label>
+													</li>
+											</ul>
+                                       </div>
+                                    </li>
+                                   {% endfor %}
+							</ul>
+						</div>
+                            <div class="test_content">
+                                <div class="test_content_title">
+                                    <h2>填空题</h2>
+                                    <p>
+                                        <span>共</span><i class="content_lit">{{ exam.paper.fill_number }}</i><span>题，</span>
+                                        <span>合计</span><i class="content_fs">{{ exam.paper.fill_number }}</i><span>分</span>
+                                    </p>
+                                </div>
+						    </div>
+                        <div class="test_content_nr">
+                            <ul>
+                                {% for filltext in exam.paper.fill_question.all %}
+                                      <li id="{{ filltext.question }}">
+                                        <div class="test_content_nr_tt">
+											<i>{{ forloop.counter}}</i><span>({{ filltext.score }}分)</span>
+                                            <font>{{ filltext.question }}</font>
+                                            <div class="test_content_nr_main">
+                                            <input type="text" name="{{ filltext.question }}">
+										    </div>
+                                        </div>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="test_content">
+							<div class="test_content_title">
+								<h2>判断题</h2>
+								<p>
+									<span>共</span><i class="content_lit">{{ exam.paper.judge_number }}</i><span>题，</span>
+                                    <span>合计</span><i class="content_fs">{{ exam.paper.judge_number }}</i><span>分</span>
+								</p>
+							</div>
+						</div>
+                        <div class="test_content_nr">
+                            <ul>
+                                {% for judgetext in exam.paper.judge_question.all %}
+                                      <li id="{{ judgetext.question }}">
+                                        <div class="test_content_nr_tt">
+											<i>{{ forloop.counter}}</i><span>({{ judgetext.score }}分)</span>
+                                            <font>{{ judgetext.question }}</font>
+                                            <div class="option">
+                                                <input type="radio" name="{{ judgetext.question }}" value="T"/>
+                                                <label>T.</label>
+										    </div>
+                                            <div class="option">
+                                                <input type="radio" name="{{ judgetext.question }}" value="F">
+                                                <label>F.</label>
+                                            </div>
+                                        </div>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="test_title">
+                            <p class="test_time">
+                                <i class="icon iconfont"></i><b class="alt-1" id="cal"></b>
+                            </p>
+                            <font><input type="submit" id="tijiao" value="交卷" ></font>
+                        </div>
+				</form>
+			</div>
+		</div>
+        <div class="nr_right">
+            <div class="nr_rt_main">
+                <div class="rt_nr1">
+                    <div class="rt_nr1_title">
+                        <h1>
+                            <i class="icon iconfont"></i>答题卡
+                        </h1>
+                        <p class="test_time">
+                            <i class="icon iconfont"></i><b class="alt-1" id="call"></b>
+                        </p>
+                    </div>
+                    <div class="rt_content">
+                                <div class="rt_content_tt">
+                                    <h2>单选题</h2>
+                                    <p>
+                                        <span>共</span><i class="content_lit">{{ exam.paper.choice_number }}</i><span>题</span>
+                                    </p>
+                                </div>
+                                <div class="rt_content_nr answerSheet">
+                                    <ul>
+                                        {% for choice in exam.paper.choice_question.all %}
+                                            <li><a href="#{{ choice.question }}">{{ forloop.counter }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                    </div>
+                    <div class="rt_content">
+                                <div class="rt_content_tt">
+                                    <h2>填空题</h2>
+                                    <p>
+                                        <span>共</span><i class="content_lit">{{ exam.paper.fill_number }}</i><span>题</span>
+                                    </p>
+                                </div>
+                                <div class="rt_content_nr answerSheet">
+                                    <ul>
+                                        {% for fill in exam.paper.fill_question.all %}
+                                            <li><a href="#{{ fill.question }}">{{ forloop.counter }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                    </div>
+                    <div class="rt_content">
+                                <div class="rt_content_tt">
+                                    <h2>判断题</h2>
+                                    <p>
+                                        <span>共</span><i class="content_lit">{{ exam.paper.judge_number }}</i><span>题</span>
+                                    </p>
+                                </div>
+                                <div class="rt_content_nr answerSheet">
+                                    <ul>
+                                        {% for judge in exam.paper.judge_question.all %}
+                                            <li><a href="#{{ judge.question }}">{{ forloop.counter }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<SCRIPT type="text/javascript">
+var min=60;
+var sec=0;
+var t;
+function start() {
+	clock();
+	if(sec==0){
+		min--;
+		sec=60;
+	}
+	sec--;
+	if(min==10){
+		alert("距离考试结束还剩10分钟");
+	}
+	if(min==0&&sec==0){
+		alert("考试结束");
+        document.getElementById('tijiao').click();
+		window.clearTimeout(t);
+	}
+	t=setTimeout("start()",1000);
+}
+function clock() {
+	if(min<10&&sec<10){
+     	document.getElementById("cal").innerHTML=min+":"+sec;
+        document.getElementById("call").innerHTML=min+":"+sec;
+    }
+	else if(min<10) {
+        document.getElementById("cal").innerHTML = min+":"+sec;
+        document.getElementById("call").innerHTML = min+":"+sec;
+    }
+	else if(sec<10){
+        document.getElementById("cal").innerHTML=min+":"+sec;
+        document.getElementById("call").innerHTML=min+":"+sec;
+    }
+	else{
+        document.getElementById("cal").innerHTML=min+":"+sec;
+        document.getElementById("call").innerHTML=min+":"+sec;
+    }
+}
+window.onload=start;
+</SCRIPT>
+
+
+{% endblock %}

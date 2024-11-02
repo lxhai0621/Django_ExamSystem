@@ -1,0 +1,67 @@
+{% extends "base.html" %} {% load static %}
+{% block title %} 注册 {% endblock title %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-4">
+            <br>
+            <form class="form-register" method="post" action="/studentRegister/">
+                {% if message %}
+                  <div class="alert alert-warning">{{ message }}</div>
+                {% endif %}
+                {% csrf_token %}
+                <h2 class="text-center">欢迎注册</h2>
+                <!--#学号-->
+                <div class="form-group">
+                    {{ register_form.sno.label }}
+                    {{ register_form.sno }}{{ register_form.errors.sno.0 }}
+                </div>
+                <!--#姓名-->
+                <div class="form-group">
+                    {{ register_form.name.label }}
+                    {{ register_form.name }}
+                </div>
+                <!--#性别-->
+                <div class="form-group">
+                    {{ register_form.sex.label }}
+                    {{ register_form.sex }}
+                </div>
+                <!--#班级-->
+                <div class="form-group">
+                    {{ register_form.clazz.label }}
+                    {{ register_form.clazz }}
+                </div>
+                <!--#年龄-->
+                <div class="form-group">
+                    {{ register_form.age.label}}
+                    {{ register_form.age }}
+                </div>
+                <!--#密码-->
+                <div class="form-group">
+                    {{ register_form.pwd.label }}
+                    {{ register_form.pwd }}{{ register_form.errors.pwd.0 }}
+                </div>
+                <!--#确认密码-->
+                <div class="form-group">
+                    {{ register_form.pwd2.label}}
+                    {{ register_form.pwd2 }}{{ register_form.errors.pwd2.0 }}
+                </div>
+                <div class="form-group">
+                    {{ register_form.email.label }}
+                    {{ register_form.email }}{{ register_form.errors.email.0 }}
+                </div>
+                <!--#验证码-->
+                <div class="form-group">
+                    <label>验证码</label>
+                    <input type="text" name="vcode"><img src="/verify_code/"><br/>
+                </div>
+                <button type="submit" class="btn btn-primary">注册</button>
+                <div class="form-group">
+                    <br>
+                    <br>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

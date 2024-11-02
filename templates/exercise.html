@@ -1,0 +1,162 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% block title %}
+题库管理系统
+{% endblock title %}
+{% block content %}
+    <nav class="navbar navbar-expand-sm bg-light navbar-light ">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link">
+                    <h4>在线练习</h4></a>
+            </li>
+            <br>
+            <br>
+        </ul>
+    </nav>
+    <div class="main">
+            <div class="test_main">
+                <div class="nr_left">
+                    <div class="test">
+                        <div class="test_content">
+                            <div class="test_content_title">
+                                <h2>单选题</h2>
+                                <p>
+                                    <span>共</span><i class="content_lit">5</i><span>题，</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="test_content_nr">
+                            <ul>
+                                {% for choicetext in exercisechoice %}
+                                    <li id="{{ forloop.counter }}">
+                                        <div class="test_content_nr_tt">
+                                            <i>{{ forloop.counter}}</i><span>({{ choicetext.score }}分)</span>
+                                            <font>{{ choicetext.question }}</font>
+                                        </div>
+                                        <div class="test_content_nr_main">
+                                            <ul>
+                                                <li class="option">
+                                                    <input type="radio" class="radioOrCheck" name="{{ choicetext.question }}"
+                                                           value="A"/>
+                                                    <label>A.
+                                                    <p class="ue" style="display: inline;">{{ choicetext.answer_A }}</p>
+                                                    </label>
+                                                </li>
+                                                <li class="option">
+                                                    <input type="radio" class="radioOrCheck" name="{{ choicetext.question }}"
+                                                           value="B"/>
+                                                    <label>
+                                                        B.<p class="ue" style="display: inline;">{{ choicetext.answer_B }}</p>
+                                                    </label>
+                                                </li>
+                                                <li class="option">
+                                                    <input type="radio" class="radioOrCheck" name="{{ choicetext.question }}"
+                                                           value="C"/>
+                                                    <label>
+                                                        C.<p class="ue" style="display: inline;">{{ choicetext.answer_C }}</p>
+                                                    </label>
+                                                </li>
+                                                <li class="option">
+                                                    <input type="radio" class="radioOrCheck" name="{{ choicetext.question }}"
+                                                           value="D"/>
+                                                    <label>
+                                                        D.<p class="ue" style="display: inline;">{{ choicetext.answer_D }}</p>
+                                                    </label>
+                                                </li>
+                                            </ul>
+                                                <button onclick="openShutManager(this,'{{ choicetext.question}}',false,'答案','{{ choicetext.right_answer }}')">答案</button>
+                                            <div id="{{ choicetext.question }}">
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                {% endfor %}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="test_content">
+                            <div class="test_content_title">
+                                <h2>填空题</h2>
+                                <p>
+                                <span>共</span><i class="content_lit">5</i><span>题</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="test_content_nr">
+                            <ul>
+                                {% for filltext in exercisefill %}
+                                    <div class="test_content_nr_tt">
+                                        <i>{{ forloop.counter}}</i><span>({{ filltext.score }}分)</span>
+                                        <font>{{ filltext.question }}</font>
+                                        <div class="test_content_nr_main">
+                                            <input type="text" name="{{ filltext.question }}">
+                                            <button onclick="openShutManager(this,'{{ filltext.question}}',false,'答案','{{ filltext.right_answer }}')">答案</button>
+                                            <div id="{{ filltext.question }}">
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </ul>
+                    </div>
+                    <div class="test_content">
+                        <div class="test_content_title">
+                            <h2>判断题</h2>
+                            <p>
+                                <span>共</span><i class="content_lit">{{ exam.paper.judge_number }}</i><span>题，</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="test_content_nr">
+                        <ul>
+                            {% for judgetext in exercisejudge %}
+                                <li id="{{ forloop.counter }}">
+                                    <div class="test_content_nr_tt">
+                                        <i>{{ forloop.counter}}</i><span>({{ judgetext.score }}分)</span>
+                                        <font>{{ judgetext.question }}</font>
+                                        <div class="test_content_nr_main">
+                                            <ul>
+                                                <li class="option">
+                                                    <input type="radio" name="{{ judgetext.question }}" value="T"/>
+                                                    <label>T.</label>
+                                                </li>
+                                                <li class="option">
+                                                    <input type="radio" name="{{ judgetext.question }}" value="F">
+                                                    <label>F.</label>
+                                                </li>
+                                            </ul>
+                                            <button onclick="openShutManager(this,'{{ judgetext.question}}',false,'答案','{{ judgetext.right_answer }}')">答案</button>
+                                            <div id="{{ judgetext.question }}">
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </div>
+    </div>
+<SCRIPT type="text/javascript">
+        function openShutManager(oSourceObj,oTargeObj,shutAble,oOpenTip,oShutTip){
+            var sourceObj=typeof oSourceObj=="string"?document.getElementById(oSourceObj):oSourceObj;
+            var targeObj=typeof oTargeObj=="string"?document.getElementById(oTargeObj):oTargeObj;
+            var openTip=oOpenTip||"";
+            var shutTip=oShutTip||"";
+            if(targeObj.style.display!="none"){
+                if(shutAble) return;
+                targeObj.style.display="none";
+                if(openTip&&shutTip){
+                    sourceObj.innerHTML=shutTip;
+                }
+            }else{
+                targeObj.style.display="block";
+                if(openTip&&shutTip){
+                    sourceObj.innerHTML=openTip;
+                }
+            }
+        }
+</SCRIPT>
+{% endblock %}

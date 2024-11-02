@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+考试记录
+{% endblock title %}
+{% block content %}
+    <div class="row justify-content-md-center">
+        <div class="col-8">
+            <br>
+            <h3>考试成绩</h3>
+            <p></p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>科目</th>
+                        <th>成绩</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for grade1 in Grade %}
+                        <tr class="table">
+                            <td>{{ student.name }}</td>
+                            <td>{{ grade1.exam.name }}</td>
+                            <td>{{ grade1.score }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

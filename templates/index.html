@@ -1,0 +1,74 @@
+<!-- extends表明此页面继承自 base.html 文件 -->
+{% extends "base.html" %}
+{% load static %}
+<!-- 写入 base.html 中定义的 title -->
+{% block title %}
+题库管理系统
+{% endblock title %}
+<!-- 写入 base.html 中定义的 content -->
+{% block content %}
+<div class="container">
+    <div class="container">
+        <br>
+        {% if request.session.sno %}
+        <ul class="nav nav-pills" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#Menu1">在线考试</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/examrecord/">考试记录</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/StartExercise/">在线练习</a>
+            </li>
+        </ul>
+        {% if message %}
+            <div class="alert alert-warning">{{ message }}</div>
+            <meta http-equiv="refresh" content="1;url=/index/ ">
+        {% endif %}
+        <div id="menu1" class="container tab-pane fade">
+            <h3>考试信息</h3>
+            <div class="container">
+                <div class="row mt-4">
+                    {% for exam1 in exam %}
+                    <div class="col-6 mb-6">
+                        <div class="card">
+                            <h4 class="card-header">{{ exam1.name }}</h4>
+                            <div class="card-body">
+                                <h4 class="card-title">{{ exam1.exam_date }}</h4>
+                                <p class="card-text">{{ exam1.major  }}</p>
+                                    <a href="/startExam/?sno={{ student.sno }}&name={{ exam1.name }}&major={{ exam1.major }}"  class="card-link">开始考试</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+        {% endif %}
+        <br>
+        {% if request.session.tno %}
+            <ul class="nav nav-pills" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" href="/ShowGrade/">成绩统计</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/StudentQuery/">成绩查询</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/exam/paper/add/">组卷</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/exam/exam/add/">考试发布</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/sendemail/">发布通知</a>
+            </li>
+            </ul>
+         {% endif %}
+        <p></p>
+    </div>
+</div>
+{% endblock content %}
+
+</div>
